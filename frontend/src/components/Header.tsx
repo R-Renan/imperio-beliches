@@ -1,8 +1,8 @@
 import { Link, NavLink } from "react-router-dom";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo-large.png";
 import Navbar from "./Navbar";
 import { useEffect, useState } from "react";
-import { Menu, ShoppingCart, User, X } from "lucide-react";
+import { Menu, ShoppingCart, UserRound, X } from "lucide-react";
 
 const Header = () => {
   const [menuOpned, setmenuOpened] = useState(false);
@@ -33,8 +33,7 @@ const Header = () => {
       <div className="flexBetween py-3">
         {/* Logo */}
         <Link to={"/"} className="flex items-center gap-x-2">
-          <img src={logo} alt="LogoImage" height={31} width={31} />
-          <span className="bold-24 hidden xs:flex ">Império Beliches</span>
+          <img src={logo} alt="LogoImage" width={120} />
         </Link>
         {/* Navbar & Button */}
         <div className="flexCenter gap-x-4">
@@ -82,7 +81,7 @@ const Header = () => {
                   "btn-secondary flexCenter gap-x-2 medium-16 rounded-xl"
                 }
               >
-                <User height={19} width={19} />
+                <UserRound height={19} width={19} />
                 Login
               </NavLink>
             </div>

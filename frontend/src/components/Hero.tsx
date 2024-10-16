@@ -19,8 +19,8 @@ const Hero = () => {
         {/* Buttons */}
         <div className="inline-flex items-center justify-center gap-4 p-2 bg-white rounded-xl">
           <div className="text-center regular-14 leading-tight pl-5">
-            <h5 className="uppercase font-bold">30% de Desconto</h5>
-            <p className="regular-14">Em Todos os Produtos</p>
+            <h5 className="uppercase font-bold">Cupom de Desconto</h5>
+            <p className="regular-14">Para novos clientes!</p>
           </div>
           <Link to={"/"} className="btn-dark rounded-xl flexCenter !py-5">
             Aproveite Agora

@@ -1,31 +1,43 @@
 import { NavLink } from "react-router-dom";
+import { Button } from "./ui/button";
 
-const Navbar = ({ containerStyles }) => {
+interface NavbarProps {
+  containerStyles: string;
+}
+
+const Navbar = ({ containerStyles }: NavbarProps) => {
   return (
     <nav className={`${containerStyles}`}>
+      {/* Botão para a página inicial */}
       <NavLink
         to={"/"}
         className={({ isActive }) => (isActive ? "active-link" : "")}
       >
-        Home
+        <Button variant={"outline"}>Pagina Inicial</Button>
       </NavLink>
+
+      {/* Botão para Colchões */}
       <NavLink
-        to={"/clothing"}
+        to={"/colchoes"}
         className={({ isActive }) => (isActive ? "active-link" : "")}
       >
-        Clothing
+        <Button variant={"outline"}>Colchões</Button>
       </NavLink>
+
+      {/* Botão para Beliches */}
       <NavLink
-        to={"/cosmetics"}
+        to={"/beliches"}
         className={({ isActive }) => (isActive ? "active-link" : "")}
       >
-        Cosmetics
+        <Button variant={"outline"}>Beliches</Button>
       </NavLink>
+
+      {/* Botão para Todos os Produtos */}
       <NavLink
-        to={"/electronis"}
+        to={"/todos-produtos"}
         className={({ isActive }) => (isActive ? "active-link" : "")}
       >
-        Electronics
+        <Button variant={"outline"}>Todos os Produtos</Button>
       </NavLink>
     </nav>
   );
