@@ -29,15 +29,17 @@ const Header = () => {
   }, [menuOpned]);
 
   return (
-    <header className="max-padd-container w-full z-50">
-      <div className="flexBetween py-3">
+    <header className="w-full z-50 bg-white">
+      {" "}
+      {/* Alteração aqui */}
+      <div className="max-padd-container flexBetween py-3">
         {/* Logo */}
         <Link to={"/"} className="flex items-center gap-x-2">
           <img src={logo} alt="LogoImage" width={120} />
         </Link>
         {/* Navbar & Button */}
         <div className="flexCenter gap-x-4">
-          {/* Destktop Navbar */}
+          {/* Desktop Navbar */}
           <div>
             <Navbar
               containerStyles={

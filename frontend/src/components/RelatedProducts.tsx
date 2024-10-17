@@ -36,7 +36,7 @@ const RelatedProducts = () => {
               spaceBetween: 30,
             },
           }}
-          className="h-[422px] sm:h-[477px] mt-5"
+          className="h-[415px] mt-5 "
         >
           {LATEST.map((item, i) => (
             <SwiperSlide key={i} className="relative group">
