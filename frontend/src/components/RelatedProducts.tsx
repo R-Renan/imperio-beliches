@@ -12,7 +12,7 @@ const RelatedProducts = () => {
   return (
     <div>
       <h4 className="border-l-4 pl-2 border-secondary text-2xl font-bold mb-5">
-        Novidades
+        Em Promoção
       </h4>
       <div className="mx-auto max-w-full">
         <Swiper
@@ -66,7 +66,7 @@ const RelatedProducts = () => {
                   {/* Preço */}
                   <div className="flex flex-col items-center mt-2">
                     <span className="text-red-500 font-bold text-lg">
-                      R$ {item.new_price}.00
+                      por R$ {item.new_price}.00
                     </span>
                     <span className="text-gray-400 line-through text-sm">
                       R$ {item.old_price}.00
@@ -77,7 +77,7 @@ const RelatedProducts = () => {
                   <Link to={`/product/${item.id}`}>
                     <Button
                       variant="link"
-                      className="mt-3 flex items-center gap-2 text-muted-foreground"
+                      className="mt-3 flex items-center gap-2 text-muted-foreground hover:text-secondary"
                     >
                       Ver Detalhes
                     </Button>
