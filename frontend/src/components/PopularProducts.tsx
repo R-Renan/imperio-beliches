@@ -65,7 +65,7 @@ const PopularProducts = () => {
 
     setFilteredProducts(filtered);
     setNoProducts(filtered.length === 0);
-    setLoading(false);
+    setLoading(true);
   }, [searchName, selectedCategory, selectedRating, sortPrice]);
 
   useEffect(() => {
@@ -103,13 +103,9 @@ const PopularProducts = () => {
   return (
     <section className="max-padd-container p-12 xl:py-28">
       {/* Título */}
-      <div className="text-center max-w-xl mx-auto">
-        <h3 className="h3">Populares</h3>
-        <p>
-          Confira nossa lista de produtos com{" "}
-          <span className="text-secondary">DESTAQUE EM VENDAS!</span>
-        </p>
-      </div>
+      <h4 className="border-l-4 pl-2 border-secondary text-2xl font-bold mb-5">
+        Populares
+      </h4>
 
       {/* Barra de Filtros */}
       <div className="max-padd-container p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col md:flex-row justify-between items-center mb-8 gap-4">

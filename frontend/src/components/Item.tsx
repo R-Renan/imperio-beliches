@@ -68,7 +68,7 @@ const Item = ({
     <div className="flex flex-col justify-between items-center gap-4 p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 relative h-[400px] w-[250px]">
       {/* Badge de Promoção */}
       {offer && (
-        <span className="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-md">
+        <span className="absolute top-2 left-2 bg-secondary text-white text-xs font-bold px-2 py-1 rounded-md">
           {porc_offer}% OFF
         </span>
       )}
