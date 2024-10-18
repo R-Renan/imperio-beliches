@@ -42,7 +42,7 @@ const all_products = [
     desc: "Colchão confortável com molas ensacadas.",
     category: 1,
     category_name: "Colchões",
-    rating: 5,
+    rating: 2,
     quant: 1,
     quantvend: 25,
     unit: "un",

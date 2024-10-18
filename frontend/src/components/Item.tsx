@@ -99,7 +99,7 @@ const Item = ({
               </span>
             </>
           ) : (
-            <span className="text-red-500 font-bold text-lg">
+            <span className="text-destructive font-bold text-lg">
               por R$ {price}.00
             </span>
           )}
