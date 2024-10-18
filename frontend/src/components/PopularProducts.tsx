@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { Input } from "./ui/input";
 import { Select, SelectTrigger, SelectContent, SelectItem } from "./ui/select";
 import { Search, SortDesc, Star, StarHalf } from "lucide-react";
-import { Skeleton } from "./ui/skeleton"; // Importação do Skeleton
-import POPULAR from "../assets/popular";
+import PRODUCTS from "../assets/all_products";
 import CATEGORIES from "../assets/category";
 import Item from "./Item";
 import FilterLabel from "./FilterLabel";
+import SkeletonItem from "./SkeletonItem";
 
 function renderStars(selectedRating: string) {
   const rating = Number(selectedRating);
@@ -30,7 +30,7 @@ const PopularProducts = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedRating, setSelectedRating] = useState("");
   const [sortPrice, setSortPrice] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState<typeof POPULAR>([]);
+  const [filteredProducts, setFilteredProducts] = useState<typeof PRODUCTS>([]);
   const [loading, setLoading] = useState(true);
   const [noProducts, setNoProducts] = useState(false);
   const [filters, setFilters] = useState<{ type: string; label: string }[]>([]);
@@ -38,7 +38,7 @@ const PopularProducts = () => {
   useEffect(() => {
     setLoading(true);
     setNoProducts(false);
-    let filtered = [...POPULAR];
+    let filtered = [...PRODUCTS];
 
     if (searchName) {
       filtered = filtered.filter((item) =>
@@ -58,14 +58,14 @@ const PopularProducts = () => {
       );
     }
     if (sortPrice === "asc") {
-      filtered.sort((a, b) => a.new_price - b.new_price);
+      filtered.sort((a, b) => a.price - b.price);
     } else if (sortPrice === "desc") {
-      filtered.sort((a, b) => b.new_price - a.new_price);
+      filtered.sort((a, b) => b.price - a.price);
     }
 
     setFilteredProducts(filtered);
     setNoProducts(filtered.length === 0);
-    setLoading(false); // Carregamento concluído
+    setLoading(false);
   }, [searchName, selectedCategory, selectedRating, sortPrice]);
 
   useEffect(() => {
@@ -104,10 +104,10 @@ const PopularProducts = () => {
     <section className="max-padd-container p-12 xl:py-28">
       {/* Título */}
       <div className="text-center max-w-xl mx-auto">
-        <h3 className="h3">Todos os Produtos</h3>
+        <h3 className="h3">Populares</h3>
         <p>
-          Confira nossa lista de produtos{" "}
-          <span className="text-secondary">especialmente para você!</span>
+          Confira nossa lista de produtos com{" "}
+          <span className="text-secondary">DESTAQUE EM VENDAS!</span>
         </p>
       </div>
 
@@ -176,26 +176,35 @@ const PopularProducts = () => {
       {/* Filtros Ativos */}
       <FilterLabel filters={filters} onRemoveFilter={handleRemoveFilter} />
 
-      {/* Skeleton de carregamento ou Produtos */}
+      {/* Skeleton ou Lista de Produtos */}
       <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 gap-y-28 mt-6">
         {loading || noProducts
           ? Array.from({ length: 8 }).map((_, index) => (
-              <div key={index} className="p-4">
-                <Skeleton className="h-48 mb-4" />
-                <Skeleton className="h-6 w-32 mb-2" />
-                <Skeleton className="h-4 w-24" />
-              </div>
+              <SkeletonItem key={index} loading={true} />
             ))
           : filteredProducts.map((item) => (
               <Item
                 key={item.id}
                 id={item.id}
                 name={item.name}
+                desc={item.desc}
                 category={item.category}
-                image={item.image}
-                new_price={item.new_price}
-                old_price={item.old_price}
+                category_name={item.category_name}
                 rating={item.rating}
+                quant={item.quant}
+                quantvend={item.quantvend}
+                unit={item.unit}
+                image={item.image}
+                price={item.price}
+                parc={item.parc}
+                parc_quant={item.parc_quant}
+                price_unit={item.price_unit}
+                free_shipping={item.free_shipping}
+                offer={item.offer}
+                porc_offer={item.porc_offer}
+                offer_price={item.offer_price}
+                old_price={item.old_price}
+                loading={false} // Passa false quando o carregamento termina
               />
             ))}
       </div>

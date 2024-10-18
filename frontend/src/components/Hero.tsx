@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import RelatedProducts from "./RelatedProducts";
+import OfferProducts from "./OfferProducts";
 
 const Hero = () => {
   return (
@@ -34,7 +34,7 @@ const Hero = () => {
 
         {/* NewCollections */}
         <div className="mt-20">
-          <RelatedProducts />
+          <OfferProducts />
         </div>
       </div>
     </section>

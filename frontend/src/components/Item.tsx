@@ -1,47 +1,78 @@
-import { ShoppingCart, Star } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 
 interface ItemProps {
   id: number;
   name: string;
+  desc: string;
   category: number;
+  category_name: string;
   rating: number;
+  quant: number;
+  quantvend: number;
+  unit: string;
   image: string;
-  new_price: number;
+  price: number;
+  parc: boolean;
+  parc_quant: number;
+  price_unit: number;
+  free_shipping: boolean;
+  offer: boolean;
+  porc_offer: number;
+  offer_price: number;
   old_price: number;
+  loading?: boolean;
 }
 
-// Função para renderizar estrelas baseado no rating
 const renderStars = (rating: number) => {
-  const fullStars = Math.floor(rating); // Estrelas completas
-  const halfStar = rating % 1 >= 0.5; // Verifica se tem meia estrela
+  const fullStars = Math.floor(rating);
+  const halfStar = rating % 1 >= 0.5;
 
   const stars = [];
 
-  // Adicionar estrelas completas
   for (let i = 0; i < fullStars; i++) {
     stars.push(
-      <Star key={`full-${i}`} size={16} className="text-yellow-500" />
+      <span key={`full-${i}`} className="text-yellow-300 text-2xl">
+        ★
+      </span>
+      //<Star key={`full-${i}`} size={16} className="text-yellow-500" />
     );
   }
 
-  // Adicionar meia estrela, se necessário
-  if (halfStar) {
-    stars.push(<Star key="half" size={16} className="text-yellow-500" />);
-  }
-
-  // Completar com estrelas vazias
   for (let i = fullStars + (halfStar ? 1 : 0); i < 5; i++) {
-    stars.push(<Star key={`empty-${i}`} size={16} className="text-gray-300" />);
+    stars.push(
+      <span key={`empty-${i}`} className="text-2xl">
+        ☆
+      </span>
+    );
   }
 
   return stars;
 };
 
-const Item = ({ id, name, image, new_price, rating }: ItemProps) => {
+const Item = ({
+  id,
+  name,
+  desc,
+  image,
+  price,
+  rating,
+  parc_quant,
+  offer,
+  porc_offer,
+  offer_price,
+}: ItemProps) => {
+  const displayedPrice = offer ? offer_price : price;
+
   return (
-    <div className="flex flex-col items-center gap-4 p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 relative h-[390px] w-[250px]">
+    <div className="flex flex-col justify-between items-center gap-4 p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 relative h-[400px] w-[250px]">
+      {/* Badge de Promoção */}
+      {offer && (
+        <span className="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-md">
+          {porc_offer}% OFF
+        </span>
+      )}
+
       {/* Imagem */}
       <img
         src={image}
@@ -50,31 +81,45 @@ const Item = ({ id, name, image, new_price, rating }: ItemProps) => {
       />
 
       {/* Informações do Produto */}
-      <div className="flex flex-col items-center text-center">
+      <div className="flex flex-col items-center text-center flex-grow">
         <h4 className="text-sm font-semibold text-gray-800 line-clamp-1">
           {name}
         </h4>
-        <p className="text-xs text-gray-500 line-clamp-1">Descrição</p>
+        <p className="text-xs text-gray-500 line-clamp-1">{desc}</p>
 
         {/* Avaliação (Estrelas) */}
-        <div className="flex mt-1">{renderStars(rating)}</div>
+        <div className="flex mt-4">{renderStars(rating)}</div>
 
-        {/* Preço */}
+        {/* Preço e Promoção */}
         <div className="flex flex-col items-center mt-2">
-          <span className="text-red-500 font-bold text-lg">
-            por R$ {new_price}.00
-          </span>
+          {offer ? (
+            <>
+              <span className="text-green-500 font-bold text-lg">
+                por R$ {offer_price}.00
+              </span>
+            </>
+          ) : (
+            <span className="text-red-500 font-bold text-lg">
+              por R$ {price}.00
+            </span>
+          )}
+
+          {/* Parcelamento Condicional */}
           <p className="text-gray-400 text-sm">
-            até<span className="text-destructive"> x12 </span>de R$ 00.00 sem
-            juros
+            até <span className="text-destructive">{parc_quant}x</span> de R${" "}
+            {(displayedPrice / parc_quant).toFixed(2)} sem juros
           </p>
         </div>
+      </div>
 
-        {/* Botão carrinho */}
+      {/* Botão Ver Detalhes (fixado no final) */}
+      <div className="w-full flex justify-center mt-auto">
         <Link to={`/product/${id}`}>
-          <Button variant="secondary" className="mt-10 flex items-center gap-2">
-            Adicionar ao carrinho
-            <ShoppingCart />
+          <Button
+            variant="link"
+            className="w-full text-muted-foreground hover:text-secondary"
+          >
+            Ver Detalhes
           </Button>
         </Link>
       </div>
