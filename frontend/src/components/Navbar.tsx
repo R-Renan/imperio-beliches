@@ -6,39 +6,24 @@ interface NavbarProps {
 }
 
 const Navbar = ({ containerStyles }: NavbarProps) => {
+  const navItems = [
+    { to: "/", label: "Página Inicial" },
+    { to: "/colchoes", label: "Colchões" },
+    { to: "/beliches", label: "Beliches" },
+    { to: "/todos-produtos", label: "Todos os Produtos" },
+  ];
+
   return (
-    <nav className={`${containerStyles}`}>
-      {/* Botão para a página inicial */}
-      <NavLink
-        to={"/"}
-        className={({ isActive }) => (isActive ? "active-link" : "")}
-      >
-        <Button variant={"outline"}>Pagina Inicial</Button>
-      </NavLink>
-
-      {/* Botão para Colchões */}
-      <NavLink
-        to={"/colchoes"}
-        className={({ isActive }) => (isActive ? "active-link" : "")}
-      >
-        <Button variant={"outline"}>Colchões</Button>
-      </NavLink>
-
-      {/* Botão para Beliches */}
-      <NavLink
-        to={"/beliches"}
-        className={({ isActive }) => (isActive ? "active-link" : "")}
-      >
-        <Button variant={"outline"}>Beliches</Button>
-      </NavLink>
-
-      {/* Botão para Todos os Produtos */}
-      <NavLink
-        to={"/todos-produtos"}
-        className={({ isActive }) => (isActive ? "active-link" : "")}
-      >
-        <Button variant={"outline"}>Todos os Produtos</Button>
-      </NavLink>
+    <nav className={containerStyles}>
+      {navItems.map((item, index) => (
+        <NavLink
+          key={index}
+          to={item.to}
+          className={({ isActive }) => (isActive ? "active-link" : "")}
+        >
+          <Button variant="outline">{item.label}</Button>
+        </NavLink>
+      ))}
     </nav>
   );
 };
