@@ -6,6 +6,7 @@ import "swiper/css/autoplay";
 import PRODUCTS from "../assets/all_products";
 import { useEffect, useState } from "react";
 import SkeletonItem from "./SkeletonItem";
+import { TextEffect } from "./core/text-effect";
 
 interface Product {
   id: number;
@@ -47,9 +48,14 @@ const OfferProducts = () => {
 
   return (
     <div>
-      <h4 className="border-l-4 pl-2 border-secondary text-2xl font-bold mb-5">
+      <TextEffect
+        className="border-l-4 pl-2 border-secondary text-2xl font-bold mb-5"
+        as="h4"
+        per="char"
+        preset="fade"
+      >
         Em Promoção
-      </h4>
+      </TextEffect>
       <div className="mx-auto max-w-full">
         <Swiper
           modules={[Autoplay]}

@@ -1,22 +1,38 @@
 import { Link } from "react-router-dom";
 import OfferProducts from "./OfferProducts";
+import { motion } from "framer-motion";
+import { TextEffect } from "./core/text-effect";
 
 const Hero = () => {
   return (
-    <section className="max-padd-container relative w-full mb-24">
+    <section className="max-padd-container relative w-full mb-14">
       {/* Contêiner para o fundo com altura fixa */}
       <div className="absolute top-0 left-0 w-full h-[744px] bg-hero bg-cover bg-center bg-no-repeat z-[-1]" />
 
       {/* Contêiner para o conteúdo com altura variável */}
       <div className="relative top-24 xs:top-32 w-full h-auto">
-        <h4 className="uppercase medium-18 tracking-wider">
+        <TextEffect
+          className="uppercase medium-18 tracking-wider cursor-default"
+          as="h4"
+          per="char"
+          preset="fade"
+        >
           Colchões & Beliches
-        </h4>
-        <h2 className="h1 max-w-[40rem]">
+        </TextEffect>
+
+        <motion.h2
+          className="h1 max-w-[40rem] cursor-pointer"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          whileHover={{ scale: 0.9 }}
+          onHoverStart={() => {}}
+          onHoverEnd={() => {}}
+        >
           Transforme seu sono e seu espaço.{" "}
           <span className="text-secondary">Compre agora</span> e descubra o
           conforto!
-        </h2>
+        </motion.h2>
         <p className="my-5 max-w-[33rem]">
           Qualidade e estilo para noites perfeitas.
         </p>
@@ -34,7 +50,7 @@ const Hero = () => {
         </div>
 
         {/* Em Promoção */}
-        <div className="mt-20">
+        <div className="mt-32">
           <OfferProducts />
         </div>
       </div>
