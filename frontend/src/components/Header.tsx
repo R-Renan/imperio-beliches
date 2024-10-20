@@ -1,45 +1,18 @@
 import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/logo-large.png";
 import Navbar from "./Navbar";
-import { useEffect, useState } from "react";
-import { Menu, ShoppingCart, UserRound, X } from "lucide-react";
+import { ShoppingCart, UserRound } from "lucide-react";
 
 const Header = () => {
-  const [menuOpned, setmenuOpened] = useState(false);
-  const toggleMenu = () => setmenuOpened(!menuOpned);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setmenuOpened(false);
-      }
-    };
-
-    const handleResize = () => {
-      setmenuOpened(false);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [menuOpned]);
-
   return (
     <header className="w-full z-50 bg-white">
-      {" "}
-      {/* Alteração aqui */}
       <div className="max-padd-container flexBetween py-3">
         {/* Logo */}
         <Link to={"/"} className="flex items-center gap-x-2">
           <img src={logo} alt="LogoImage" width={120} />
         </Link>
-        {/* Navbar & Button */}
+        {/* Navbar */}
         <div className="flexCenter gap-x-4">
-          {/* Desktop Navbar */}
           <div>
             <Navbar
               containerStyles={
@@ -47,29 +20,9 @@ const Header = () => {
               }
             />
           </div>
-          {/* Mobile Navbar */}
-          <div>
-            <Navbar
-              containerStyles={`${
-                menuOpned
-                  ? "flex items-start flex-col gap-y-12 fixed top-20 right-8 p-12 bg-white rounded-3xl shadow-md w-64 medium-16 ring-1 ring-slate-900/5 transition-all duration-300 z-50"
-                  : "flex items-start flex-col gap-y-12 fixed top-20 p-12 bg-white rounded-3xl shadow-md w-64 medium-16 ring-1 ring-slate-900/5 transition-all duration-300 z-50 -right-[100%]"
-              }`}
-            />
-          </div>
+
           {/* Buttons */}
           <div className="flexBetween gap-x-3 sm:gap-x-2 bold-16">
-            {!menuOpned ? (
-              <Menu
-                className="xl:hidden cursor-pointer text-3xl hover:text-secondary"
-                onClick={toggleMenu}
-              />
-            ) : (
-              <X
-                className="xl:hidden cursor-pointer text-3xl hover:text-secondary"
-                onClick={toggleMenu}
-              />
-            )}
             <div className="flexBetween sm:gap-x-6">
               <NavLink to={"/"} className={"flex"}>
                 <ShoppingCart className="p-2 h-10 w-10 hover:text-secondary" />

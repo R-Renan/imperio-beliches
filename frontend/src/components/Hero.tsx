@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import OfferProducts from "./OfferProducts";
+import OfferProducts from "./products/OfferProducts";
 import { motion } from "framer-motion";
 import { TextEffect } from "./core/text-effect";
 import { ArrowRight } from "lucide-react";
@@ -11,7 +11,7 @@ const Hero = () => {
       <div className="absolute top-0 left-0 w-full h-[744px] bg-hero bg-cover bg-center bg-no-repeat z-[-1] " />
 
       {/* Contêiner para o conteúdo com altura variável */}
-      <div className="relative top-24 xs:top-32 w-full h-auto">
+      <div className="relative top-24 w-full h-auto">
         <TextEffect
           className="uppercase medium-18 tracking-wider "
           as="h4"

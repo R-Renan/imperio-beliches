@@ -1,5 +1,11 @@
+import AllProducts from "../components/products/AllProducts";
+
 const Product = () => {
-  return <div>Product</div>;
+  return (
+    <>
+      <AllProducts />
+    </>
+  );
 };
 
 export default Product;

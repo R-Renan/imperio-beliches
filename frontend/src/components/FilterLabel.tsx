@@ -20,8 +20,7 @@ const FilterLabel: React.FC<FilterLabelProps> = ({
   return (
     <div>
       {activeFilters.length > 0 && (
-        <div className="mb-4">
-          <p>Filtros ativos:</p>
+        <div className="mb-4 mt-6">
           <div className="flex flex-wrap gap-2">
             {activeFilters.map((filter) => (
               <div

@@ -1,9 +1,6 @@
 import { Link } from "react-router-dom";
-import {
-  RiFacebookFill,
-  RiInstagramFill,
-  RiWhatsappFill,
-} from "react-icons/ri";
+import { RiInstagramFill, RiWhatsappFill } from "react-icons/ri";
+import { FaFacebookSquare } from "react-icons/fa";
 
 const SocialIcons = () => {
   return (
@@ -12,7 +9,7 @@ const SocialIcons = () => {
         to={"/"}
         className=" text-[#0866FF] text-2xl hover:-translate-y-1 transition-all duration-500"
       >
-        <RiFacebookFill />
+        <FaFacebookSquare />
       </Link>
       <Link
         to={"/"}
