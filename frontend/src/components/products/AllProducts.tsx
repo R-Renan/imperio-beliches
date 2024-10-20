@@ -1,4 +1,3 @@
-// AllProducts.tsx
 import { useState, useEffect } from "react";
 import Filters from "../Filters"; // Importando o componente Filters
 import PRODUCTS from "../../assets/all_products";
@@ -10,6 +9,7 @@ import Pagination from "../Pagination";
 const AllProducts = () => {
   const [searchName, setSearchName] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [selectedRating, setSelectedRating] = useState("");
   const [sortPrice, setSortPrice] = useState("");
   const [filteredProducts, setFilteredProducts] = useState<typeof PRODUCTS>([]);
@@ -29,11 +29,18 @@ const AllProducts = () => {
         item.name.toLowerCase().includes(searchName.toLowerCase())
       );
     }
-    if (selectedCategory) {
+    if (selectedSubCategory) {
       filtered = filtered.filter(
         (item) =>
-          String(item.category)?.toLowerCase() ===
-          selectedCategory.toLowerCase()
+          String(item.sub_category)?.toLowerCase() ===
+          selectedSubCategory.toLowerCase()
+      );
+    }
+    if (selectedSubCategory) {
+      filtered = filtered.filter(
+        (item) =>
+          String(item.sub_category)?.toLowerCase() ===
+          selectedSubCategory.toLowerCase()
       );
     }
     if (selectedRating) {
@@ -52,7 +59,13 @@ const AllProducts = () => {
       setNoProducts(filtered.length === 0);
       setLoading(false);
     }, 500);
-  }, [searchName, selectedCategory, selectedRating, sortPrice]);
+  }, [
+    searchName,
+    selectedCategory,
+    selectedSubCategory,
+    selectedRating,
+    sortPrice,
+  ]);
 
   useEffect(() => {
     const filters = [];
@@ -121,6 +134,8 @@ const AllProducts = () => {
             setSearchName={setSearchName}
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
+            selectedSubCategory={selectedSubCategory}
+            setSelectedSubCategory={setSelectedSubCategory}
             selectedRating={selectedRating}
             setSelectedRating={setSelectedRating}
             sortPrice={sortPrice}
@@ -140,14 +155,13 @@ const AllProducts = () => {
                   <Items key={item.id} {...item} loading={false} />
                 ))}
           </div>
-
-          <Pagination
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            totalPages={totalPages}
-          />
         </div>
       </div>
+      <Pagination
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPages={totalPages}
+      />
     </section>
   );
 };

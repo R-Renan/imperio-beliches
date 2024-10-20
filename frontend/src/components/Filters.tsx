@@ -1,15 +1,23 @@
-// Filters.tsx
 import { FC } from "react";
 import { Input } from "./ui/input";
 import { Select, SelectTrigger, SelectContent, SelectItem } from "./ui/select";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "./ui/accordion"; // Importando o Accordion
 import { Search, SortDesc, Star } from "lucide-react";
 import CATEGORIES from "../assets/category";
+import SUBCATEGORY from "../assets/subcategory";
 
 interface FiltersProps {
   searchName: string;
   setSearchName: (value: string) => void;
   selectedCategory: string;
   setSelectedCategory: (value: string) => void;
+  selectedSubCategory: string;
+  setSelectedSubCategory: (value: string) => void;
   selectedRating: string;
   setSelectedRating: (value: string) => void;
   sortPrice: string;
@@ -19,8 +27,9 @@ interface FiltersProps {
 const Filters: FC<FiltersProps> = ({
   searchName,
   setSearchName,
-  selectedCategory,
   setSelectedCategory,
+  selectedSubCategory,
+  setSelectedSubCategory,
   selectedRating,
   setSelectedRating,
   sortPrice,
@@ -40,21 +49,40 @@ const Filters: FC<FiltersProps> = ({
         <Search className="absolute right-2 top-2 w-5 h-5 text-gray-400" />
       </div>
 
-      {/* Filtro por Categoria */}
+      {/* Filtro por Categoria e Subcategoria */}
       <div className="relative">
-        <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-          <SelectTrigger className="w-full">
-            <Search className="w-5 h-5 text-gray-400 mr-2" />
-            Selecione a categoria
-          </SelectTrigger>
-          <SelectContent>
-            {CATEGORIES.map((category) => (
-              <SelectItem key={category.id} value={String(category.id)}>
-                {category.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <Accordion type="single" collapsible={true} className="w-full">
+          {CATEGORIES.map((category) => (
+            <AccordionItem key={category.id} value={String(category.id)}>
+              <AccordionTrigger
+                onClick={() => setSelectedCategory(String(category.id))} // Atualiza a categoria selecionada
+              >
+                <span className="text-gray-700 font-medium">
+                  {category.name}
+                </span>
+              </AccordionTrigger>
+              <AccordionContent>
+                {SUBCATEGORY.filter(
+                  (sub) => sub.category_id === category.id // Filtra subcategorias dinamicamente
+                ).map((subcategory) => (
+                  <div
+                    key={subcategory.id}
+                    className={`cursor-pointer pl-4 py-2 ${
+                      selectedSubCategory === String(subcategory.id)
+                        ? "bg-blue-100 font-semibold" // Estilo quando selecionado
+                        : ""
+                    }`}
+                    onClick={() =>
+                      setSelectedSubCategory(String(subcategory.id))
+                    }
+                  >
+                    {subcategory.name}
+                  </div>
+                ))}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </div>
 
       {/* Filtro por Avaliação */}

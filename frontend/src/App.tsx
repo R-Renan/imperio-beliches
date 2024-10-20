@@ -9,8 +9,8 @@ import Product from "./pages/Product";
 import WhatsApp from "./components/WhatsApp";
 import Category from "./pages/Category";
 
-import colchoes from "./assets/electronicsbanner.png";
-import beliches from "./assets/clothingbanner.png";
+import colchoes from "./assets/bannercolchao.jpg";
+import beliches from "./assets/bannerbeliche.jpg";
 import NotFound from "./components/NotFound";
 
 export default function App() {
