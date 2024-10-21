@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
 import OfferProducts from "./products/OfferProducts";
 import { motion } from "framer-motion";
 import { TextEffect } from "./core/text-effect";
-import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -23,7 +22,6 @@ const Hero = () => {
 
         <motion.h2
           className="h1 max-w-[40rem]"
-          initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
           whileHover={{ scale: 0.9 }}
@@ -31,23 +29,14 @@ const Hero = () => {
           onHoverEnd={() => {}}
         >
           Transforme seu sono e seu espaço.{" "}
-          <span className="text-secondary">Compre agora</span> e descubra o
-          conforto!
+          <Link to="/todos-produtos" className="text-secondary underline">
+            Compre agora
+          </Link>{" "}
+          e descubra o conforto!
         </motion.h2>
         <p className="my-5 max-w-[33rem]">
           Qualidade e estilo para noites perfeitas.
         </p>
-
-        {/* Botões */}
-        <div className="inline-flex items-center justify-center gap-4 p-2 bg-white rounded-xl">
-          <div className="text-center regular-14 leading-tight pl-5">
-            <h5 className="uppercase font-bold">Crie sua conta</h5>
-            <p className="regular-14">Clique aqui</p>
-          </div>
-          <Link to={"/"} className="btn-dark rounded-xl flexCenter py-5 ">
-            <ArrowRight className="text-primary" />
-          </Link>
-        </div>
 
         {/* Em Promoção */}
         <div className="mt-32">

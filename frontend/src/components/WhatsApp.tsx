@@ -12,7 +12,7 @@ import { Send } from "lucide-react";
 const WhatsApp = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
-  const [isSending, setIsSending] = useState(false); // Estado para controlar o envio
+  const [isSending, setIsSending] = useState(false);
   const [hasError, setHasError] = useState(false);
   const form = useForm();
 
@@ -23,17 +23,16 @@ const WhatsApp = () => {
       return;
     }
 
-    setIsSending(true); // Inicia a animação de envio
+    setIsSending(true);
 
-    // Simular tempo de envio da mensagem (3 segundos)
     setTimeout(() => {
       const url = `https://wa.me/5599999999999?text=${encodeURIComponent(
         message
       )}`;
       window.open(url, "_blank");
-      setIsSending(false); // Termina a animação
-      setMessage(""); // Limpa o campo de mensagem
-      setIsOpen(false); // Fecha o Dialog após o envio
+      setIsSending(false);
+      setMessage("");
+      setIsOpen(false);
     }, 2000);
   };
 
@@ -41,7 +40,10 @@ const WhatsApp = () => {
     <div className="fixed bottom-5 right-5">
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-          <Button className="p-3 bg-green-500 rounded-full shadow-lg">
+          <Button
+            variant={"link"}
+            className="p-3 bg-green-500 rounded-full shadow-lg transition-transform duration-300 hover:scale-105"
+          >
             <RiWhatsappFill size={30} color="white" />
           </Button>
         </DialogTrigger>

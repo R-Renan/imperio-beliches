@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+.custom-toast {
+  font-size: small; /* Aumenta o tamanho da fonte */
+  padding: 20px; /* Aumenta o espaço interno */
+  border-radius: 8px; /* Opcional: arredonda as bordas */
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -160,8 +166,7 @@
 
   .max-padd-container {
     @apply mx-auto max-w-[1440px] px-6 py-8 rounded-md;
-}
-
+  }
 
   .flexCenter {
     @apply flex items-center justify-center;

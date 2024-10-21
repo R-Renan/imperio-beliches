@@ -120,10 +120,10 @@ const Item = ({
 
       {/* Botão Ver Detalhes (fixado no final) */}
       <div className="w-full flex justify-center mt-auto">
-        <Link to={`/product/${id}`}>
+        <Link to={`/produto/${id}`}>
           <Button
             variant="link"
-            className="w-full text-muted-foreground hover:text-secondary"
+            className="w-full text-muted-foreground underline hover:text-secondary transition-transform duration-300 hover:scale-105"
           >
             Ver Detalhes
           </Button>

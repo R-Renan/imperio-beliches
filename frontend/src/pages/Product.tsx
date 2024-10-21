@@ -1,10 +1,17 @@
 import AllProducts from "../components/products/AllProducts";
+import SEO from "../components/SEO";
 
 const Product = () => {
   return (
-    <>
-      <AllProducts />
-    </>
+    <section>
+      <div>
+        <SEO
+          title="Todos os produtos | Império Beliches"
+          description="Encontre os melhores colchões e beliches na nossa loja. Ofertas incríveis e entrega rápida, segurança e suporte!"
+        />
+        <AllProducts />
+      </div>
+    </section>
   );
 };
 

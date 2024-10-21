@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import PopularProducts from "./products/PopularProducts";
 import {
   animate,
@@ -8,7 +7,6 @@ import {
   useMotionValueEvent,
 } from "framer-motion";
 import { TextEffect } from "./core/text-effect";
-import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const Offer = () => {
@@ -39,7 +37,6 @@ const Offer = () => {
         </TextEffect>
         <motion.h2
           className="h1 max-w-[40rem] "
-          initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
           whileHover={{ scale: 0.9 }}
@@ -52,16 +49,6 @@ const Offer = () => {
           </motion.span>{" "}
           em colchões!
         </motion.h2>
-
-        {/* Botões */}
-        <div className="inline-flex items-center justify-center gap-4 p-2 bg-white rounded-xl">
-          <div className="text-center regular-14 leading-tight pl-5">
-            <h5 className="uppercase font-bold">Veja mais</h5>
-          </div>
-          <Link to={"/"} className="btn-dark rounded-xl flexCenter py-5 ">
-            <ArrowRight className="text-primary" />
-          </Link>
-        </div>
 
         {/* Em Promoção */}
         <div className="mt-40 mb-40">

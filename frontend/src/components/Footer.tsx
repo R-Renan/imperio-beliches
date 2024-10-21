@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-import logo from "../assets/logo-small.png";
 import NavFooter from "./NavFooter";
 import SocialIcons from "./SocialIcons";
 
@@ -7,11 +5,7 @@ const Footer = () => {
   return (
     <footer className="py-2">
       <div className="flexCenter flex-col bg-white gap-y-4">
-        {/* logo */}
-        <Link to={"/"} className="flex items-center gap-x-2">
-          <img src={logo} alt="LogoImage" height={100} width={100} />
-        </Link>
-        <div className="py-4">
+        <div className="flex items-center py-4 px-4">
           <NavFooter
             containerStyles={
               "flex gap-x-5 xl:gap-x-10 text-secondary medium-15 rounded-full px-2 py-1"

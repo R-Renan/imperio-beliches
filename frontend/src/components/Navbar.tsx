@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { Button } from "./ui/button";
+import SearchButton from "./SearchButton";
 
 interface NavbarProps {
   containerStyles: string;
@@ -15,13 +16,25 @@ const navItems = [
 const Navbar = ({ containerStyles }: NavbarProps) => {
   return (
     <nav className={containerStyles}>
+      {/* Botão de Pesquisa */}
+      <SearchButton />
+
       {navItems.map((item) => (
         <NavLink
-          key={item.to} // Usar `item.to` como key para melhor identificação
+          key={item.to}
           to={item.to}
-          className={({ isActive }) => (isActive ? "active-link" : "")}
+          className={({ isActive }) =>
+            isActive ? "active-link" : "text-tertiary"
+          }
         >
-          <Button variant="outline">{item.label}</Button>
+          <Button
+            variant="ghost"
+            className="hover:bg-white hover:active-link transition-colors duration-300"
+          >
+            {" "}
+            {/* Transição suave na mudança de cor */}
+            {item.label}
+          </Button>
         </NavLink>
       ))}
     </nav>

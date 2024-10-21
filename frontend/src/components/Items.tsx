@@ -1,8 +1,8 @@
 import { Button } from "./ui/button";
 import { useState } from "react";
-import { ShoppingCart, LoaderCircle } from "lucide-react";
-import { toast } from "sonner"; // Biblioteca de notificações
-import { BorderTrail } from "./core/border-trail"; // Animação de borda
+import { LoaderCircle, Plus } from "lucide-react";
+import { toast } from "sonner";
+import { BorderTrail } from "./core/border-trail";
 import { Link } from "react-router-dom";
 
 interface ItemProps {
@@ -78,9 +78,10 @@ const Items = ({
     setIsLoading(true);
     setIsVisible(true);
 
-    // Simulação de adicionar ao carrinho
     setTimeout(() => {
-      toast.success(`${name} foi adicionado ao carrinho!`);
+      toast.success(`${name} foi adicionado ao carrinho!`, {
+        className: "custom-toast",
+      });
       setIsLoading(false);
       setIsVisible(false);
     }, 1500);
@@ -153,10 +154,10 @@ const Items = ({
         {/* Botões de Ações */}
         <div className="w-full flex justify-between items-center mt-auto">
           {/* Botão Ver Detalhes */}
-          <Link to={`/product/${id}`} className="flex-grow">
+          <Link to={`/produto/${id}`} className="flex-grow">
             <Button
-              variant="link"
-              className="w-full text-muted-foreground hover:text-secondary"
+              variant="outline"
+              className="w-full bg-white text-muted-foreground hover:text-secondary transition-transform duration-300 hover:scale-105"
             >
               Ver Detalhes
             </Button>
@@ -164,15 +165,15 @@ const Items = ({
 
           {/* Botão Adicionar ao Carrinho (somente ícone) */}
           <Button
-            variant="link"
+            variant="outline"
             onClick={handleAddToCart}
             disabled={isLoading}
-            className="ml-2 p-2 text-muted-foreground hover:text-green-500"
+            className="ml-2 p-2 text-muted-foreground bg-white hover:text-green-500 transition-transform duration-300 hover:scale-105"
           >
             {isLoading ? (
               <LoaderCircle className="w-5 h-5 text-green-500 animate-spin" />
             ) : (
-              <ShoppingCart className="w-5 h-5" />
+              <Plus className="w-5 h-5" />
             )}
           </Button>
         </div>
