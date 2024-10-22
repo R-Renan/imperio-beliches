@@ -1,6 +1,6 @@
 import OfferProducts from "./products/OfferProducts";
 import { motion } from "framer-motion";
-import { TextEffect } from "./core/text-effect";
+import { TextEffect } from "./ui/core/text-effect";
 import { Link } from "react-router-dom";
 
 const Hero = () => {

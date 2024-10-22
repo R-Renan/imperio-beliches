@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
-import { Toaster } from "sonner";
 import { useEffect, useState } from "react";
+import { ReactNotifications } from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -71,8 +72,8 @@ export default function App() {
   return (
     <HelmetProvider>
       <main>
+        <ReactNotifications />
         <BrowserRouter>
-          <Toaster position="top-right" expand={true} richColors />
           <Header user={user} onLogin={handleLogin} onLogout={handleLogout} />
           <AppWrapper loading={loading} setLoading={setLoading} />
           {!loading && <WhatsApp />} {!loading && <Footer />}

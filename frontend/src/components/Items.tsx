@@ -1,97 +1,109 @@
+// Imports necessários
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { LoaderCircle, Plus } from "lucide-react";
-import { toast } from "sonner";
-import { BorderTrail } from "./core/border-trail";
+import { BorderTrail } from "./ui/core/border-trail";
 import { Link } from "react-router-dom";
 import { Badge } from "./ui/badge";
+import { Product } from "../lib/types";
+import { formatPrice } from "../lib/utils";
+import { useCart } from "../context/AddToCart";
+import { Store } from "react-notifications-component";
+import "animate.css";
+import Cart from "./cart/Cart";
 
-interface ItemProps {
-  id: number;
-  name: string;
-  desc: string;
-  category: number;
-  category_name: string;
-  rating: number;
-  quant: number;
-  quantvend: number;
-  unit: string;
-  image: string;
-  price: number;
-  parc: boolean;
-  parc_quant: number;
-  price_unit: number;
-  free_shipping: boolean;
-  offer: boolean;
-  porc_offer: number;
-  offer_price: number;
-  old_price: number;
+interface ItemsProps extends Product {
   loading?: boolean;
 }
 
 const renderStars = (rating: number) => {
   const fullStars = Math.floor(rating);
   const halfStar = rating % 1 >= 0.5;
-
-  const stars = [];
-
-  for (let i = 0; i < fullStars; i++) {
-    stars.push(
-      <span key={`full-${i}`} className="text-yellow-300 text-2xl">
-        ★
-      </span>
-    );
-  }
-
-  for (let i = fullStars + (halfStar ? 1 : 0); i < 5; i++) {
-    stars.push(
-      <span key={`empty-${i}`} className="text-2xl">
-        ☆
-      </span>
-    );
-  }
-
-  return stars;
+  return Array.from({ length: 5 }, (_, i) => (
+    <span
+      key={i}
+      className={`text-2xl ${
+        i < fullStars ? "text-yellow-300" : "text-gray-400"
+      }`}
+    >
+      {i < fullStars || (i === fullStars && halfStar) ? "★" : "☆"}
+    </span>
+  ));
 };
 
-const Items = ({
-  id,
-  name,
-  desc,
-  image,
-  price,
-  rating,
-  parc_quant,
-  offer,
-  porc_offer,
-  offer_price,
-}: ItemProps) => {
+const Items = (props: ItemsProps) => {
+  const {
+    id,
+    name,
+    desc,
+    image,
+    price,
+    rating,
+    parc_quant,
+    offer,
+    porc_offer,
+    offer_price,
+  } = props;
+
   const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const displayedPrice = offer ? offer_price : price;
+  const { addItem } = useCart();
 
   const handleAnimationComplete = () => {
     setIsLoading(false);
     setTimeout(() => setIsVisible(false), 300);
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = useCallback(() => {
+    const productToAdd = {
+      ...props,
+      price: props.offer ? props.offer_price : props.price,
+    };
     setIsLoading(true);
     setIsVisible(true);
 
     setTimeout(() => {
-      toast.success(`${name} foi adicionado ao carrinho!`, {
-        className: "custom-toast",
-      });
+      const wasSuccessful = addItem(productToAdd);
+
+      if (wasSuccessful) {
+        Store.addNotification({
+          title: "Sucesso!",
+          message: `${productToAdd.name} foi adicionado ao carrinho!`,
+          type: "success",
+          insert: "top",
+          container: "bottom-center",
+          animationIn: ["animate__animated", "animate__bounceIn"],
+          animationOut: ["animate__animated", "animate__bounceOut"],
+          dismiss: {
+            duration: 3000,
+            onScreen: true,
+          },
+        });
+        <Cart />;
+      } else {
+        Store.addNotification({
+          title: "Erro",
+          message: `Não há mais itens em estoque!`,
+          type: "danger",
+          insert: "top",
+          container: "bottom-center",
+          animationIn: ["animate__animated", "animate__bounceIn"],
+          animationOut: ["animate__animated", "animate__bounceOut"],
+          dismiss: {
+            duration: 3000,
+            onScreen: true,
+          },
+        });
+      }
+
       setIsLoading(false);
       setIsVisible(false);
     }, 1500);
-  };
+  }, [addItem, props]); // Adicione onOpenCart aqui
 
   return (
     <div className="relative">
-      {/* Animação de borda que envolve o card completo */}
-
       <div className="flex flex-col justify-between items-center gap-4 p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 relative h-[400px] w-[250px] cursor-default">
         {isVisible && (
           <BorderTrail
@@ -105,8 +117,6 @@ const Items = ({
             onAnimationComplete={handleAnimationComplete}
           />
         )}
-
-        {/* Badge de Promoção */}
         {offer && (
           <Badge
             variant={"default"}
@@ -115,49 +125,34 @@ const Items = ({
             {porc_offer}% OFF
           </Badge>
         )}
-
-        {/* Imagem */}
         <img
           src={image}
           alt={name}
           className="rounded-lg w-full h-40 object-cover transition-transform duration-300 hover:scale-105"
         />
-
-        {/* Informações do Produto */}
         <div className="flex flex-col items-center text-center flex-grow">
           <h4 className="text-sm font-semibold text-gray-800 line-clamp-1">
             {name}
           </h4>
           <p className="text-xs text-gray-500 line-clamp-1">{desc}</p>
-
-          {/* Avaliação (Estrelas) */}
           <div className="flex mt-4">{renderStars(rating)}</div>
-
-          {/* Preço e Promoção */}
           <div className="flex flex-col items-center mt-2">
             {offer ? (
-              <>
-                <span className="text-green-500 font-bold text-lg">
-                  por R$ {offer_price}.00
-                </span>
-              </>
+              <span className="text-green-500 font-bold text-lg">
+                por {formatPrice(offer_price)}
+              </span>
             ) : (
               <span className="text-destructive font-bold text-lg">
-                por R$ {price}.00
+                por {formatPrice(price)}
               </span>
             )}
-
-            {/* Parcelamento Condicional */}
             <p className="text-gray-400 text-sm">
               até <span className="text-destructive">{parc_quant}x</span> de R${" "}
               {(displayedPrice / parc_quant).toFixed(2)} sem juros
             </p>
           </div>
         </div>
-
-        {/* Botões de Ações */}
         <div className="w-full flex justify-between items-center mt-auto">
-          {/* Botão Ver Detalhes */}
           <Link to={`/produto/${id}`} className="flex-grow">
             <Button
               variant="outline"
@@ -166,8 +161,6 @@ const Items = ({
               Ver Detalhes
             </Button>
           </Link>
-
-          {/* Botão Adicionar ao Carrinho (somente ícone) */}
           <Button
             variant="outline"
             onClick={handleAddToCart}

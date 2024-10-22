@@ -6,7 +6,7 @@ import "swiper/css/autoplay";
 import PRODUCTS from "../../assets/all_products";
 import { useEffect, useState } from "react";
 import SkeletonItem from "../SkeletonItem";
-import { TextEffect } from "../core/text-effect";
+import { TextEffect } from "../ui/core/text-effect";
 
 import { Product } from "../../lib/types";
 

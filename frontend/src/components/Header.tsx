@@ -1,7 +1,7 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../assets/logo-large.png";
 import Navbar from "./Navbar";
-import { ShoppingCart, UserRound, LogOut } from "lucide-react";
+import { UserRound, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import {
   DropdownMenu,
@@ -9,6 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import Cart from "./cart/Cart";
 
 interface HeaderProps {
   user: { name: string } | null;
@@ -40,12 +41,9 @@ const Header = ({ user, onLogin, onLogout }: HeaderProps) => {
 
           {/* Botões de Carrinho e Autenticação */}
           <div className="flexBetween gap-x-5 bold-16">
-            <NavLink to={"/carrinho"} className={"flex items-center"}>
-              <ShoppingCart className="p-2 h-10 w-10 hover:text-secondary" />
-              <span className="relative flexCenter w-5 h-5 rounded-full bg-secondary text-primary medium-14 -top-2 right-3">
-                {0}
-              </span>
-            </NavLink>
+            {/* <NavLink to={"/carrinho"} className={"flex items-center"}> */}
+            <Cart />
+            {/* </NavLink> */}
 
             {/* Verifica se o usuário está logado */}
             {user ? (

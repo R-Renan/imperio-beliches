@@ -1,7 +1,9 @@
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
-import { BorderTrail } from "./core/border-trail";
+import { BorderTrail } from "./ui/core/border-trail";
+
 import { Product } from "../lib/types";
+import { formatPrice } from "../lib/utils";
 
 interface ItemProps extends Product {
   loading?: boolean;
@@ -10,23 +12,16 @@ interface ItemProps extends Product {
 const renderStars = (rating: number) => {
   const fullStars = Math.floor(rating);
   const halfStar = rating % 1 >= 0.5;
-
-  const stars = Array.from({ length: 5 }, (_, index) => {
-    if (index < fullStars) {
-      return (
-        <span key={`full-${index}`} className="text-yellow-300 text-2xl">
-          ★
-        </span>
-      );
-    }
-    return (
-      <span key={`empty-${index}`} className="text-2xl">
-        {index === fullStars && halfStar ? "★" : "☆"}
-      </span>
-    );
-  });
-
-  return stars;
+  return Array.from({ length: 5 }, (_, i) => (
+    <span
+      key={i}
+      className={`text-2xl ${
+        i < fullStars ? "text-yellow-300" : "text-gray-400"
+      }`}
+    >
+      {i < fullStars || (i === fullStars && halfStar) ? "★" : "☆"}
+    </span>
+  ));
 };
 
 const Item = (props: ItemProps) => {
@@ -84,7 +79,7 @@ const Item = (props: ItemProps) => {
               offer ? "text-green-500" : "text-destructive"
             }`}
           >
-            por R$ {offer ? offer_price : price}.00
+            por {offer ? formatPrice(offer_price) : formatPrice(price)}
           </span>
 
           {/* Parcelamento Condicional */}
