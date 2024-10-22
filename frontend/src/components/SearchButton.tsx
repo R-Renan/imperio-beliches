@@ -4,7 +4,7 @@ import useClickOutside from "../hooks/useClickOutside";
 import { Input } from "./ui/input";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Search } from "lucide-react";
-import PRODUCTS from "../assets/all_products"; // Importar a lista de produtos
+import PRODUCTS from "../assets/all_products";
 import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
 

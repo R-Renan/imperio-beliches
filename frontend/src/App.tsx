@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
+import AllProduct from "./pages/AllProduct";
 import Product from "./pages/Product";
-import Products from "./pages/Products";
 import WhatsApp from "./components/WhatsApp";
 import Category from "./pages/Category";
 import NotFound from "./components/NotFound";
@@ -29,7 +29,7 @@ const AppWrapper = ({ loading, setLoading }: AppWrapperProps) => {
 
     const timeoutId = setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 300);
 
     return () => clearTimeout(timeoutId);
   }, [location, setLoading]);
@@ -49,8 +49,8 @@ const AppWrapper = ({ loading, setLoading }: AppWrapperProps) => {
         path="/beliches"
         element={<Category banner={beliches} category={"Beliches"} />}
       />
-      <Route path="/todos-produtos" element={<Product />} />
-      <Route path="/produto/:productId" element={<Products />} />
+      <Route path="/todos-produtos" element={<AllProduct />} />
+      <Route path="/produto/:productId" element={<Product />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
@@ -70,16 +70,12 @@ export default function App() {
 
   return (
     <HelmetProvider>
-      <main className="flex flex-col min-h-screen pb-16">
+      <main>
         <BrowserRouter>
           <Toaster position="top-right" expand={true} richColors />
           <Header user={user} onLogin={handleLogin} onLogout={handleLogout} />
-          <AppWrapper loading={loading} setLoading={setLoading} />{" "}
-          {/* Passe o estado de loading */}
-          {!loading && <WhatsApp />}{" "}
-          {/* Altere a lógica para usar o estado de loading */}
-          {!loading && <Footer />}{" "}
-          {/* Altere a lógica para usar o estado de loading */}
+          <AppWrapper loading={loading} setLoading={setLoading} />
+          {!loading && <WhatsApp />} {!loading && <Footer />}
         </BrowserRouter>
       </main>
     </HelmetProvider>

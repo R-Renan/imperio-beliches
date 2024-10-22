@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "./ui/button"; // Assumindo que está usando o shadcn/ui para o estilo "ghost"
+import { Button } from "./ui/button";
 
 interface PaginationProps {
   currentPage: number;
@@ -107,7 +107,6 @@ const Pagination: React.FC<PaginationProps> = ({
     <div className="py-8 text-center">
       {totalPages > 1 ? (
         <div className="flex flex-col items-center space-y-4">
-          {/* Botões Anterior e Próxima */}
           <div className="flex justify-center items-center space-x-4">
             <Button
               variant="link"

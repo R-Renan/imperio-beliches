@@ -6,27 +6,7 @@ import { useEffect, useState } from "react";
 import SkeletonItem from "../SkeletonItem";
 import { TextEffect } from "../core/text-effect";
 
-interface Product {
-  id: number;
-  name: string;
-  desc: string;
-  category: number;
-  category_name: string;
-  rating: number;
-  quant: number;
-  quantvend: number;
-  unit: string;
-  image: string;
-  price: number;
-  parc: boolean;
-  parc_quant: number;
-  price_unit: number;
-  free_shipping: boolean;
-  offer: boolean;
-  porc_offer: number;
-  offer_price: number;
-  old_price: number;
-}
+import { Product } from "../../lib/types";
 
 const PopularProducts = () => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -34,19 +14,31 @@ const PopularProducts = () => {
   const [noProducts, setNoProducts] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    setNoProducts(false);
+    const fetchFilteredProducts = () => {
+      setLoading(true);
+      const filtered = PRODUCTS.filter((item) => item.rating === 5)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 8);
 
-    let filtered = PRODUCTS.filter((item) => item.rating === Number(5));
+      setFilteredProducts(filtered);
+      setNoProducts(filtered.length === 0);
+      setLoading(false);
+    };
 
-    filtered = filtered.sort(() => Math.random() - 0.5);
-
-    filtered = filtered.slice(0, 8);
-
-    setFilteredProducts(filtered);
-    setNoProducts(filtered.length === 0);
-    setLoading(false);
+    fetchFilteredProducts();
   }, []);
+
+  const renderProductItems = () => {
+    if (loading || noProducts) {
+      return Array.from({ length: 8 }).map((_, index) => (
+        <SkeletonItem key={index} loading={true} />
+      ));
+    }
+
+    return filteredProducts.map(({ id, ...itemProps }) => (
+      <Item key={id} {...itemProps} loading={false} id={id} />
+    ));
+  };
 
   return (
     <section className="mx-auto max-w-full">
@@ -62,35 +54,7 @@ const PopularProducts = () => {
 
       {/* Skeleton ou Lista de Produtos */}
       <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 gap-y-28 mt-6">
-        {loading || noProducts
-          ? Array.from({ length: 8 }).map((_, index) => (
-              <SkeletonItem key={index} loading={true} />
-            ))
-          : filteredProducts.map((item) => (
-              <Item
-                key={item.id}
-                id={item.id}
-                name={item.name}
-                desc={item.desc}
-                category={item.category}
-                category_name={item.category_name}
-                rating={item.rating}
-                quant={item.quant}
-                quantvend={item.quantvend}
-                unit={item.unit}
-                image={item.image}
-                price={item.price}
-                parc={item.parc}
-                parc_quant={item.parc_quant}
-                price_unit={item.price_unit}
-                free_shipping={item.free_shipping}
-                offer={item.offer}
-                porc_offer={item.porc_offer}
-                offer_price={item.offer_price}
-                old_price={item.old_price}
-                loading={false}
-              />
-            ))}
+        {renderProductItems()}
       </div>
     </section>
   );

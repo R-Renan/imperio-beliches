@@ -4,6 +4,7 @@ import { LoaderCircle, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { BorderTrail } from "./core/border-trail";
 import { Link } from "react-router-dom";
+import { Badge } from "./ui/badge";
 
 interface ItemProps {
   id: number;
@@ -107,9 +108,12 @@ const Items = ({
 
         {/* Badge de Promoção */}
         {offer && (
-          <span className="absolute top-2 left-2 bg-secondary text-white text-xs font-bold px-2 py-1 rounded-md">
+          <Badge
+            variant={"default"}
+            className="absolute top-2 left-2 bg-secondary text-white text-xs font-bold px-2 py-1 rounded-md hover:bg-blue-400"
+          >
             {porc_offer}% OFF
-          </span>
+          </Badge>
         )}
 
         {/* Imagem */}

@@ -16,7 +16,6 @@ const navItems = [
 const Navbar = ({ containerStyles }: NavbarProps) => {
   return (
     <nav className={containerStyles}>
-      {/* Botão de Pesquisa */}
       <SearchButton />
 
       {navItems.map((item) => (
@@ -31,8 +30,6 @@ const Navbar = ({ containerStyles }: NavbarProps) => {
             variant="ghost"
             className="hover:bg-white hover:active-link transition-colors duration-300"
           >
-            {" "}
-            {/* Transição suave na mudança de cor */}
             {item.label}
           </Button>
         </NavLink>

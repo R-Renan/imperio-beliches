@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
-import Filters from "../Filters"; // Importando o componente Filters
+import { useState, useEffect, useCallback } from "react";
+import Filters from "../Filters";
 import PRODUCTS from "../../assets/all_products";
 import Items from "../Items";
 import FilterLabel from "../FilterLabel";
 import SkeletonItem from "../SkeletonItem";
 import Pagination from "../Pagination";
+
+import { Product } from "../../lib/types";
 
 const AllProducts = () => {
   const [searchName, setSearchName] = useState("");
@@ -12,47 +14,48 @@ const AllProducts = () => {
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [selectedRating, setSelectedRating] = useState("");
   const [sortPrice, setSortPrice] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState<typeof PRODUCTS>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [noProducts, setNoProducts] = useState(false);
   const [filters, setFilters] = useState<{ type: string; label: string }[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
 
+  const filterProducts = useCallback(
+    (products: Product[]) => {
+      let filtered = [...products];
+
+      if (searchName) {
+        filtered = filtered.filter((item) =>
+          item.name.toLowerCase().includes(searchName.toLowerCase())
+        );
+      }
+      if (selectedSubCategory) {
+        filtered = filtered.filter(
+          (item) =>
+            String(item.sub_category)?.toLowerCase() ===
+            selectedSubCategory.toLowerCase()
+        );
+      }
+      if (selectedRating) {
+        filtered = filtered.filter(
+          (item) => item.rating && item.rating >= Number(selectedRating)
+        );
+      }
+      if (sortPrice === "asc") {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (sortPrice === "desc") {
+        filtered.sort((a, b) => b.price - a.price);
+      }
+
+      return filtered;
+    },
+    [searchName, selectedSubCategory, selectedRating, sortPrice]
+  );
+
   useEffect(() => {
     setLoading(true);
-    setNoProducts(false);
-    let filtered = [...PRODUCTS];
-
-    if (searchName) {
-      filtered = filtered.filter((item) =>
-        item.name.toLowerCase().includes(searchName.toLowerCase())
-      );
-    }
-    if (selectedSubCategory) {
-      filtered = filtered.filter(
-        (item) =>
-          String(item.sub_category)?.toLowerCase() ===
-          selectedSubCategory.toLowerCase()
-      );
-    }
-    if (selectedSubCategory) {
-      filtered = filtered.filter(
-        (item) =>
-          String(item.sub_category)?.toLowerCase() ===
-          selectedSubCategory.toLowerCase()
-      );
-    }
-    if (selectedRating) {
-      filtered = filtered.filter(
-        (item) => item.rating && item.rating >= Number(selectedRating)
-      );
-    }
-    if (sortPrice === "asc") {
-      filtered.sort((a, b) => a.price - b.price);
-    } else if (sortPrice === "desc") {
-      filtered.sort((a, b) => b.price - a.price);
-    }
+    const filtered = filterProducts(PRODUCTS);
 
     setTimeout(() => {
       setFilteredProducts(filtered);
@@ -65,6 +68,7 @@ const AllProducts = () => {
     selectedSubCategory,
     selectedRating,
     sortPrice,
+    filterProducts,
   ]);
 
   useEffect(() => {
@@ -91,11 +95,22 @@ const AllProducts = () => {
   }, [searchName, selectedCategory, selectedRating, sortPrice]);
 
   const handleRemoveFilter = (type: string) => {
-    if (type === "name") setSearchName("");
-    else if (type === "category") setSelectedCategory("");
-    else if (type === "rating") setSelectedRating("");
-    else if (type === "price") setSortPrice("");
-
+    switch (type) {
+      case "name":
+        setSearchName("");
+        break;
+      case "category":
+        setSelectedCategory("");
+        break;
+      case "rating":
+        setSelectedRating("");
+        break;
+      case "price":
+        setSortPrice("");
+        break;
+      default:
+        break;
+    }
     setFilters(filters.filter((filter) => filter.type !== type));
   };
 
@@ -105,7 +120,6 @@ const AllProducts = () => {
     indexOfFirstProduct,
     indexOfLastProduct
   );
-
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
   return (

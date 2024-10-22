@@ -1,27 +1,9 @@
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 import { BorderTrail } from "./core/border-trail";
+import { Product } from "../lib/types";
 
-interface ItemProps {
-  id: number;
-  name: string;
-  desc: string;
-  category: number;
-  category_name: string;
-  rating: number;
-  quant: number;
-  quantvend: number;
-  unit: string;
-  image: string;
-  price: number;
-  parc: boolean;
-  parc_quant: number;
-  price_unit: number;
-  free_shipping: boolean;
-  offer: boolean;
-  porc_offer: number;
-  offer_price: number;
-  old_price: number;
+interface ItemProps extends Product {
   loading?: boolean;
 }
 
@@ -29,39 +11,38 @@ const renderStars = (rating: number) => {
   const fullStars = Math.floor(rating);
   const halfStar = rating % 1 >= 0.5;
 
-  const stars = [];
-
-  for (let i = 0; i < fullStars; i++) {
-    stars.push(
-      <span key={`full-${i}`} className="text-yellow-300 text-2xl">
-        ★
+  const stars = Array.from({ length: 5 }, (_, index) => {
+    if (index < fullStars) {
+      return (
+        <span key={`full-${index}`} className="text-yellow-300 text-2xl">
+          ★
+        </span>
+      );
+    }
+    return (
+      <span key={`empty-${index}`} className="text-2xl">
+        {index === fullStars && halfStar ? "★" : "☆"}
       </span>
     );
-  }
-
-  for (let i = fullStars + (halfStar ? 1 : 0); i < 5; i++) {
-    stars.push(
-      <span key={`empty-${i}`} className="text-2xl">
-        ☆
-      </span>
-    );
-  }
+  });
 
   return stars;
 };
 
-const Item = ({
-  id,
-  name,
-  desc,
-  image,
-  price,
-  rating,
-  parc_quant,
-  offer,
-  porc_offer,
-  offer_price,
-}: ItemProps) => {
+const Item = (props: ItemProps) => {
+  const {
+    id,
+    name,
+    desc,
+    image,
+    price,
+    rating,
+    parc_quant,
+    offer,
+    porc_offer,
+    offer_price,
+  } = props;
+
   const displayedPrice = offer ? offer_price : price;
 
   return (
@@ -88,27 +69,23 @@ const Item = ({
 
       {/* Informações do Produto */}
       <div className="flex flex-col items-center text-center flex-grow">
-        <h4 className="text-sm font-semibold text-gray-800 line-clamp-1 ">
+        <h4 className="text-sm font-semibold text-gray-800 line-clamp-1">
           {name}
         </h4>
-        <p className="text-xs text-gray-500 line-clamp-1 ">{desc}</p>
+        <p className="text-xs text-gray-500 line-clamp-1">{desc}</p>
 
         {/* Avaliação (Estrelas) */}
         <div className="flex mt-4">{renderStars(rating)}</div>
 
         {/* Preço e Promoção */}
         <div className="flex flex-col items-center mt-2">
-          {offer ? (
-            <>
-              <span className="text-green-500 font-bold text-lg">
-                por R$ {offer_price}.00
-              </span>
-            </>
-          ) : (
-            <span className="text-destructive font-bold text-lg">
-              por R$ {price}.00
-            </span>
-          )}
+          <span
+            className={`font-bold text-lg ${
+              offer ? "text-green-500" : "text-destructive"
+            }`}
+          >
+            por R$ {offer ? offer_price : price}.00
+          </span>
 
           {/* Parcelamento Condicional */}
           <p className="text-gray-400 text-sm">
