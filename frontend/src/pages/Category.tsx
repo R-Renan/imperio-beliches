@@ -1,31 +1,10 @@
 import { useEffect, useState, useMemo } from "react";
 import PRODUCTS from "../assets/all_products";
-import Items from "../components/Items";
-import SkeletonItem from "../components/SkeletonItem";
-import Pagination from "../components/Pagination";
-import SEO from "../components/SEO";
-
-interface Product {
-  id: number;
-  name: string;
-  desc: string;
-  category: number;
-  category_name: string;
-  rating: number;
-  quant: number;
-  quantvend: number;
-  unit: string;
-  image: string;
-  price: number;
-  parc: boolean;
-  parc_quant: number;
-  price_unit: number;
-  free_shipping: boolean;
-  offer: boolean;
-  porc_offer: number;
-  offer_price: number;
-  old_price: number;
-}
+import Items from "../components/products/Items";
+import SkeletonItem from "../components/products/SkeletonItem";
+import Pagination from "../components/products/Pagination";
+import SEO from "../components/users/SEO";
+import { Product } from "../lib/types";
 
 const ForCategory: React.FC<{ banner: string; category: string }> = ({
   banner,

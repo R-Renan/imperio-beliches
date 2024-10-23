@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
-import Filters from "../Filters";
+import Filters from "./Filters";
 import PRODUCTS from "../../assets/all_products";
-import Items from "../Items";
-import FilterLabel from "../FilterLabel";
-import SkeletonItem from "../SkeletonItem";
-import Pagination from "../Pagination";
+import Items from "./Items";
+import FilterLabel from "./FilterLabel";
+import SkeletonItem from "./SkeletonItem";
+import Pagination from "./Pagination";
 
 import { Product } from "../../lib/types";
 

@@ -5,13 +5,13 @@ import {
   DialogTrigger,
   DialogTitle,
   DialogDescription,
-} from "./ui/dialog";
-import { Button } from "./ui/button";
+} from "../ui/dialog";
+import { Button } from "../ui/button";
 import { motion } from "framer-motion";
 import { Loader, UserRound } from "lucide-react";
 import { RiWhatsappFill } from "react-icons/ri";
-import { Avatar, AvatarImage } from "./ui/avatar";
-import { FormField } from "./ui/form";
+import { Avatar, AvatarImage } from "../ui/avatar";
+import { FormField } from "../ui/form";
 import { useForm } from "react-hook-form";
 import { Send } from "lucide-react";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";

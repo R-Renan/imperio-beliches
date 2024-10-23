@@ -1,6 +1,6 @@
 import AllProducts from "../components/products/AllProducts";
 
-import SEO from "../components/SEO";
+import SEO from "../components/users/SEO";
 
 const AllProduct = () => {
   return (

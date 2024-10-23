@@ -1,5 +1,5 @@
 // SkeletonItem.tsx
-import { Skeleton } from "./ui/skeleton";
+import { Skeleton } from "../ui/skeleton";
 
 interface SkeletonItemProps {
   loading: boolean;

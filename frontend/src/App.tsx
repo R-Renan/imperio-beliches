@@ -8,7 +8,7 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import AllProduct from "./pages/AllProduct";
 import Product from "./pages/Product";
-import WhatsApp from "./components/WhatsApp";
+import WhatsApp from "./components/users/WhatsApp";
 import Category from "./pages/Category";
 import NotFound from "./components/NotFound";
 import Loading from "./components/Loading";

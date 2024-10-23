@@ -1,7 +1,7 @@
 import About from "../components/About";
 import Hero from "../components/Hero";
-import Offer from "../components/Offer";
-import SEO from "../components/SEO";
+import Offer from "../components/products/Offer";
+import SEO from "../components/users/SEO";
 
 const Home = () => {
   return (

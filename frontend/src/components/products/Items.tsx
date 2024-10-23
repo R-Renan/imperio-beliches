@@ -1,16 +1,14 @@
-// Imports necessários
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { useCallback, useState } from "react";
 import { LoaderCircle, Plus } from "lucide-react";
-import { BorderTrail } from "./ui/core/border-trail";
+import { BorderTrail } from "../ui/core/border-trail";
 import { Link } from "react-router-dom";
-import { Badge } from "./ui/badge";
-import { Product } from "../lib/types";
-import { formatPrice } from "../lib/utils";
-import { useCart } from "../context/AddToCart";
+import { Badge } from "../ui/badge";
+import { Product } from "../../lib/types";
+import { formatPrice } from "../../lib/utils";
+import { useCart } from "../../context/AddToCart";
 import { Store } from "react-notifications-component";
 import "animate.css";
-import Cart from "./cart/Cart";
 
 interface ItemsProps extends Product {
   loading?: boolean;
@@ -48,7 +46,7 @@ const Items = (props: ItemsProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const displayedPrice = offer ? offer_price : price;
-  const { addItem } = useCart();
+  const { addItem, toggleCart } = useCart();
 
   const handleAnimationComplete = () => {
     setIsLoading(false);
@@ -80,7 +78,7 @@ const Items = (props: ItemsProps) => {
             onScreen: true,
           },
         });
-        <Cart />;
+        toggleCart(true); // Abre o Cart
       } else {
         Store.addNotification({
           title: "Erro",
@@ -100,7 +98,7 @@ const Items = (props: ItemsProps) => {
       setIsLoading(false);
       setIsVisible(false);
     }, 1500);
-  }, [addItem, props]); // Adicione onOpenCart aqui
+  }, [addItem, props, toggleCart]);
 
   return (
     <div className="relative">

@@ -9,31 +9,36 @@ export type CartItem = {
 
 type CartState = {
   items: CartItem[];
-  addItem: (product: Product) => boolean; // Retorna um booleano
+  isCartOpen: boolean;
+  addItem: (product: Product) => boolean;
   removeItem: (productId: string) => void;
   decreaseQuantity: (productId: string) => void;
   increaseQuantity: (productId: string) => void;
   setQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
+  toggleCart: (isOpen: boolean) => void;
 };
 
 export const useCart = create<CartState>()(
   persist(
     (set) => ({
       items: [],
+      isCartOpen: false,
+
+      toggleCart: (isOpen) => set({ isCartOpen: isOpen }),
+
       addItem: (product) => {
-        let wasSuccessful = false; // Variável para armazenar o resultado
+        let wasSuccessful = false;
 
         set((state) => {
           const existingItem = state.items.find(
             (item) => item.product.id === product.id
           );
-
           const availableQuantity = product.quant;
           const newQuantity = existingItem ? existingItem.quantity + 1 : 1;
 
           if (newQuantity <= availableQuantity) {
-            wasSuccessful = true; // Atualiza a variável para sucesso
+            wasSuccessful = true;
             return {
               items: existingItem
                 ? state.items.map((item) =>
@@ -42,76 +47,84 @@ export const useCart = create<CartState>()(
                       : item
                   )
                 : [...state.items, { product, quantity: newQuantity }],
+              isCartOpen: true, // Abre o Sheet do carrinho
             };
           }
 
-          return state; // Caso a adição falhe, mantém o estado inalterado
+          return state;
         });
 
-        return wasSuccessful; // Retorna o resultado da operação
+        return wasSuccessful;
       },
-      increaseQuantity: (id) =>
+
+      increaseQuantity: (productId) =>
         set((state) => {
           const existingItem = state.items.find(
-            (item) => item.product.id === Number(id)
+            (item) => item.product.id === Number(productId)
           );
-          const product = existingItem?.product;
 
           if (
             existingItem &&
-            product &&
-            existingItem.quantity < product.quant
+            existingItem.quantity < existingItem.product.quant
           ) {
             return {
               items: state.items.map((item) =>
-                item.product.id === Number(id)
+                item.product.id === Number(productId)
                   ? { ...item, quantity: item.quantity + 1 }
                   : item
               ),
             };
           }
-          return state; // Retorna o estado inalterado se o estoque estiver cheio
+
+          return state;
         }),
-      decreaseQuantity: (id) =>
+
+      decreaseQuantity: (productId) =>
         set((state) => {
           const existingItem = state.items.find(
-            (item) => item.product.id === Number(id)
+            (item) => item.product.id === Number(productId)
           );
-          if (existingItem && existingItem.quantity > 1) {
+
+          if (existingItem) {
+            const newQuantity = existingItem.quantity - 1;
             return {
-              items: state.items.map((item) =>
-                item.product.id === Number(id)
-                  ? { ...item, quantity: item.quantity - 1 }
-                  : item
-              ),
-            };
-          } else {
-            return {
-              items: state.items.filter(
-                (item) => item.product.id !== Number(id)
-              ),
+              items:
+                newQuantity > 0
+                  ? state.items.map((item) =>
+                      item.product.id === Number(productId)
+                        ? { ...item, quantity: newQuantity }
+                        : item
+                    )
+                  : state.items.filter(
+                      (item) => item.product.id === Number(productId)
+                    ),
             };
           }
+
+          return state;
         }),
-      removeItem: (id) =>
+
+      removeItem: (productId) =>
         set((state) => ({
-          items: state.items.filter((item) => item.product.id !== Number(id)),
+          items: state.items.filter(
+            (item) => item.product.id !== Number(productId)
+          ),
         })),
-      setQuantity: (id, quantity) =>
-        set((state) => {
-          if (quantity < 1) {
-            return {
-              items: state.items.filter(
-                (item) => item.product.id !== Number(id)
-              ),
-            };
-          }
-          return {
-            items: state.items.map((item) =>
-              item.product.id === Number(id) ? { ...item, quantity } : item
-            ),
-          };
-        }),
+
+      setQuantity: (productId, quantity) =>
+        set((state) => ({
+          items:
+            quantity < 1
+              ? state.items.filter(
+                  (item) => item.product.id !== Number(productId)
+                )
+              : state.items.map((item) =>
+                  item.product.id === Number(productId)
+                    ? { ...item, quantity }
+                    : item
+                ),
+        })),
+
       clearCart: () => set({ items: [] }),
     }),
     {

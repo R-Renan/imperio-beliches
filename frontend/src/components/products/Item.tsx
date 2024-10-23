@@ -1,9 +1,9 @@
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
-import { BorderTrail } from "./ui/core/border-trail";
+import { BorderTrail } from "../ui/core/border-trail";
 
-import { Product } from "../lib/types";
-import { formatPrice } from "../lib/utils";
+import { Product } from "../../lib/types";
+import { formatPrice } from "../../lib/utils";
 
 interface ItemProps extends Product {
   loading?: boolean;

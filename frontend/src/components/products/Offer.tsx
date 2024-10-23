@@ -1,4 +1,4 @@
-import PopularProducts from "./products/PopularProducts";
+import PopularProducts from "./PopularProducts";
 import {
   animate,
   motion,
@@ -6,7 +6,7 @@ import {
   useTransform,
   useMotionValueEvent,
 } from "framer-motion";
-import { TextEffect } from "./ui/core/text-effect";
+import { TextEffect } from "../ui/core/text-effect";
 import { useEffect, useState } from "react";
 
 const Offer = () => {

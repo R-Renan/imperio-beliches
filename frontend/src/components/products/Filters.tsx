@@ -1,15 +1,15 @@
 import { FC } from "react";
-import { Input } from "./ui/input";
-import { Select, SelectTrigger, SelectContent, SelectItem } from "./ui/select";
+import { Input } from "../ui/input";
+import { Select, SelectTrigger, SelectContent, SelectItem } from "../ui/select";
 import {
   Accordion,
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
-} from "./ui/accordion"; // Importando o Accordion
+} from "../ui/accordion"; // Importando o Accordion
 import { Search, SortDesc, Star } from "lucide-react";
-import CATEGORIES from "../assets/category";
-import SUBCATEGORY from "../assets/subcategory";
+import CATEGORIES from "../../assets/category";
+import SUBCATEGORY from "../../assets/subcategory";
 
 interface FiltersProps {
   searchName: string;

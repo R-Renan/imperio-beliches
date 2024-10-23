@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { Button } from "./ui/button";
-import SearchButton from "./SearchButton";
+import SearchButton from "./products/SearchButton";
 
 interface NavbarProps {
   containerStyles: string;

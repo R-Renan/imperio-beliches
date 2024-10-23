@@ -1,6 +1,6 @@
 import ProductHd from "../components/products/ProductHd";
 import { useParams } from "react-router-dom";
-import SEO from "../components/SEO";
+import SEO from "../components/users/SEO";
 import PRODUCTS from "../assets/all_products";
 import NotFound from "../components/NotFound";
 import ProductDisplay from "../components/products/ProductDisplay";
