@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  DialogTitle,
+  DialogDescription,
+} from "./ui/dialog";
 import { Button } from "./ui/button";
 import { motion } from "framer-motion";
 import { Loader, UserRound } from "lucide-react";
@@ -8,6 +14,7 @@ import { Avatar, AvatarImage } from "./ui/avatar";
 import { FormField } from "./ui/form";
 import { useForm } from "react-hook-form";
 import { Send } from "lucide-react";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 const WhatsApp = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,7 +33,7 @@ const WhatsApp = () => {
     setIsSending(true);
 
     setTimeout(() => {
-      const url = `https://wa.me/5599999999999?text=${encodeURIComponent(
+      const url = `https://wa.me/5513996623318?text=${encodeURIComponent(
         message
       )}`;
       window.open(url, "_blank");
@@ -53,6 +60,12 @@ const WhatsApp = () => {
           name="whatsapp"
           render={({ field }) => (
             <DialogContent className="bg-gray-100 max-w-[520px] rounded-lg p-10">
+              <VisuallyHidden>
+                <DialogTitle>Atendimento via WhatsApp</DialogTitle>
+                <DialogDescription>
+                  Digite sua mensagem para iniciar o atendimento.
+                </DialogDescription>
+              </VisuallyHidden>
               <div className="flex flex-col items-center">
                 <div className="flex items-center gap-3 mb-4">
                   <UserRound className="w-10 h-10 rounded-full" />

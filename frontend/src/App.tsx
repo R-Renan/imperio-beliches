@@ -30,36 +30,34 @@ const AppWrapper = ({ loading, setLoading }: AppWrapperProps) => {
 
     const timeoutId = setTimeout(() => {
       setLoading(false);
-    }, 300);
+    }, 1300);
 
     return () => clearTimeout(timeoutId);
   }, [location, setLoading]);
 
-  if (loading) {
-    return <Loading />;
-  }
-
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route
-        path="/colchoes"
-        element={<Category banner={colchoes} category={"Colchões"} />}
-      />
-      <Route
-        path="/beliches"
-        element={<Category banner={beliches} category={"Beliches"} />}
-      />
-      <Route path="/todos-produtos" element={<AllProduct />} />
-      <Route path="/produto/:productId" element={<Product />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <div className={`relative ${loading ? "blur-lg" : ""}`}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/colchoes"
+          element={<Category banner={colchoes} category={"Colchões"} />}
+        />
+        <Route
+          path="/beliches"
+          element={<Category banner={beliches} category={"Beliches"} />}
+        />
+        <Route path="/todos-produtos" element={<AllProduct />} />
+        <Route path="/produto/:productId" element={<Product />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </div>
   );
 };
 
 export default function App() {
   const [user, setUser] = useState<{ name: string } | null>(null);
-  const [loading, setLoading] = useState(true); // Mova o estado de loading aqui
+  const [loading, setLoading] = useState(true);
 
   const handleLogin = () => {
     setUser({ name: "Renan" });
@@ -71,12 +69,17 @@ export default function App() {
 
   return (
     <HelmetProvider>
-      <main>
+      <main className="relative">
         <ReactNotifications />
         <BrowserRouter>
           <Header user={user} onLogin={handleLogin} onLogout={handleLogout} />
           <AppWrapper loading={loading} setLoading={setLoading} />
           {!loading && <WhatsApp />} {!loading && <Footer />}
+          {loading && (
+            <div className="fixed inset-0 flex items-center justify-center bg-white/70 backdrop-blur-none z-50">
+              <Loading />
+            </div>
+          )}
         </BrowserRouter>
       </main>
     </HelmetProvider>

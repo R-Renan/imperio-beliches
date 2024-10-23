@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import Cart from "./cart/Cart";
+import Notification from "./Notification";
 
 interface HeaderProps {
   user: { name: string } | null;
@@ -41,9 +42,8 @@ const Header = ({ user, onLogin, onLogout }: HeaderProps) => {
 
           {/* Botões de Carrinho e Autenticação */}
           <div className="flexBetween gap-x-5 bold-16">
-            {/* <NavLink to={"/carrinho"} className={"flex items-center"}> */}
+            <Notification />
             <Cart />
-            {/* </NavLink> */}
 
             {/* Verifica se o usuário está logado */}
             {user ? (

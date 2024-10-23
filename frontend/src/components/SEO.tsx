@@ -17,4 +17,5 @@ const SEO: React.FC<SEOProps> = ({ title, description, children }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export default SEO;
