@@ -1,66 +1,121 @@
+import { Link } from "react-router-dom";
+import { useState, useRef, useEffect } from "react";
 import { Bell } from "lucide-react";
+import { notifications as initialNotifications } from "../../assets/notifications";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { ScrollArea } from "../ui/scroll-area";
-import { useDropdownMenu } from "../../hooks/useDropdownMenu"; // Hook com debounce
-import { useNotifications } from "../../hooks/useNotifications";
+import { ScrollArea } from "./../ui/scroll-area";
 
-const Notification = () => {
-  const {
-    isMenuOpen,
-    handleBellMouseEnter,
-    handleBellMouseLeave,
-    handleDropdownMouseEnter,
-    handleDropdownMouseLeave,
-  } = useDropdownMenu();
-  const { isMounted, unreadCount, notificationsList, markAsRead } =
-    useNotifications();
+const Notification: React.FC = () => {
+  const [notifications, setNotifications] = useState(
+    initialNotifications.map((notification) => ({
+      ...notification,
+      read: false,
+    }))
+  );
+  const [unreadCount, setUnreadCount] = useState(notifications.length);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  // Fechar o dropdown ao clicar fora
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // Função para marcar como lida e remover a notificação
+  const handleNotificationClick = (id: number) => {
+    const updatedNotifications = notifications.filter(
+      (notification) => notification.id !== id
+    );
+    setNotifications(updatedNotifications);
+    setUnreadCount(updatedNotifications.length);
+    setIsMenuOpen(false); // Fechar o dropdown
+  };
 
   return (
-    <DropdownMenu open={isMenuOpen} onOpenChange={() => {}}>
-      <div
-        className="bg-black"
-        onMouseEnter={handleBellMouseEnter}
-        onMouseLeave={handleBellMouseLeave}
-      >
-        <DropdownMenuTrigger asChild>
-          <div className="rounded-full border -m-2 flex items-center p-2">
-            <Bell
-              aria-hidden="true"
-              className="p-2 h-9 w-9 flex-shrink-0 hover:text-secondary"
-            />
-            <span className="relative w-5 h-5 -top-2 right-3 ml-2 text-sm font-medium text-tertiary">
-              {isMounted ? unreadCount : 0}
-            </span>
-          </div>
-        </DropdownMenuTrigger>
+    <div className="relative" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+      <div className="relative cursor-pointer group p-1">
+        <DropdownMenu open={isMenuOpen}>
+          <DropdownMenuTrigger asChild>
+            <div className="relative">
+              <Bell
+                aria-hidden="true"
+                className="p-2 h-10 w-10 flex-shrink-0 hover:text-secondary"
+              />
+
+              {unreadCount > 0 && (
+                <span className="absolute -top-2 -right-1 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {unreadCount}
+                </span>
+              )}
+            </div>
+          </DropdownMenuTrigger>
+
+          {/* Conteúdo do Dropdown */}
+          <DropdownMenuContent
+            className="absolute right-0 mt-2 w-96 bg-white shadow-lg rounded-md"
+            align="end"
+            ref={dropdownRef}
+          >
+            <div className="py-2">
+              <ScrollArea className="h-80">
+                {notifications.length === 0 ? (
+                  <div className="text-center p-4">Nenhuma notificação</div>
+                ) : (
+                  notifications.map((notification) => (
+                    <DropdownMenuItem
+                      key={notification.id}
+                      className="flex items-start gap-4 p-4 hover:bg-gray-100 transition-all"
+                      onClick={() => handleNotificationClick(notification.id)}
+                    >
+                      <Link
+                        to={`/pedido/${notification.pedido_id}`}
+                        className="flex-1"
+                      >
+                        <div className="flex items-start gap-4">
+                          <img
+                            src={notification.imageUrl}
+                            alt={notification.description}
+                            className="w-12 h-12 rounded-full"
+                          />
+                          <div>
+                            <p className="font-bold text-sm text-blue-600">
+                              {notification.description}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {notification.message}
+                            </p>
+                            <span className="text-xs text-gray-400">
+                              {notification.date}
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
+                    </DropdownMenuItem>
+                  ))
+                )}
+              </ScrollArea>
+            </div>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
-      <DropdownMenuContent
-        className="w-full"
-        // onMouseEnter={handleDropdownMouseEnter}
-        // onMouseLeave={handleDropdownMouseLeave}
-      >
-        <ScrollArea className="h-[350px] w-[450px]">
-          {notificationsList.length === 0 ? (
-            <p className="p-4 text-center text-gray-500">Nenhuma notificação</p>
-          ) : (
-            notificationsList.map((notification) => (
-              <DropdownMenuItem
-                key={notification.id}
-                onSelect={() => markAsRead(notification.id)}
-                className="flex flex-col gap-2 p-2 border-b border-gray-200"
-              >
-                {notification.message}
-              </DropdownMenuItem>
-            ))
-          )}
-        </ScrollArea>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    </div>
   );
 };
 

@@ -12,6 +12,7 @@ import {
 import Cart from "./products/Cart";
 import Notification from "./users/Notification";
 import React from "react";
+import { Separator } from "./ui/separator";
 
 interface HeaderProps {
   user: { name: string } | null;
@@ -38,8 +39,9 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout }) => {
           <Navbar containerStyles="hidden xl:flex gap-x-5 xl:gap-x-10 medium-15 rounded-full px-2 py-1" />
 
           {/* Notifications and Cart */}
-          <div className="flex items-center gap-x-5">
+          <div className="flex items-center gap-x-2">
             <Notification />
+            <Separator orientation="vertical" className="top-2" />
             <Cart />
 
             {/* User Authentication */}

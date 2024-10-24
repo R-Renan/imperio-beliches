@@ -17,51 +17,49 @@ import {
 import { Separator } from "../ui/separator";
 import { formatPrice } from "../../lib/utils";
 import { buttonVariants } from "../ui/button";
-import { useCart } from "../../hooks/useCart"; // Importando o hook
+import { useCart } from "../../context/AddToCart"; // Zustand hook
 import { ScrollArea } from "../ui/scroll-area";
 import { Link } from "react-router-dom";
 import CartItem from "./CartItem";
-import { useDropdownMenu } from "../../hooks/useDropdownMenu";
 
 const Cart = () => {
-  const { isMounted, itemCount, cartTotal, isOpen, setIsOpen, items } =
-    useCart();
-  const { isMenuOpen, handleMouseEnter, handleMouseLeave, setIsMenuOpen } =
-    useDropdownMenu();
+  const { items, itemCount, cartTotal, isCartOpen, toggleCart } = useCart();
 
   return (
     <>
-      <DropdownMenu open={isMenuOpen} onOpenChange={setIsMenuOpen}>
-        <DropdownMenuTrigger asChild>
-          <div className="rounded-full border -m-2 flex items-center p-2">
-            <ShoppingCart
-              aria-hidden="true"
-              className="p-2 h-9 w-9 flex-shrink-0 hover:text-secondary"
-            />
-            <span className="relative w-5 h-5 -top-2 right-3 ml-2 text-sm font-medium text-tertiary">
-              {isMounted ? itemCount : 0}
-            </span>
-          </div>
-        </DropdownMenuTrigger>
-
-        <DropdownMenuContent className="w-56">
-          <DropdownMenuItem onSelect={() => setIsOpen(true)}>
-            <div className="flex items-center gap-x-2">
-              <ShoppingCart className="h-4 w-4" />
-              Ver carrinho ({itemCount})
+      <div className="relative cursor-pointer group p-1">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className="relative">
+              <ShoppingCart
+                aria-hidden="true"
+                className="p-2 h-10 w-10 flex-shrink-0 hover:text-secondary cursor-pointer"
+              />
+              <span className="absolute -top-2 -right-1 bg-secondary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {itemCount}
+              </span>
             </div>
-          </DropdownMenuItem>
+          </DropdownMenuTrigger>
 
-          <DropdownMenuItem asChild>
-            <Link to="/checkout" className="flex items-center gap-x-2">
-              <CreditCard className="h-4 w-4" />
-              Ir para o pagamento
-            </Link>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuItem onSelect={() => toggleCart(true)}>
+              <div className="flex items-center gap-x-2">
+                <ShoppingCart className="h-4 w-4" />
+                Ver carrinho ({itemCount})
+              </div>
+            </DropdownMenuItem>
 
-      <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <DropdownMenuItem asChild>
+              <Link to="/checkout" className="flex items-center gap-x-2">
+                <CreditCard className="h-4 w-4" />
+                Ir para o pagamento
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
+      <Sheet open={isCartOpen} onOpenChange={toggleCart}>
         <SheetContent
           aria-labelledby="cart-title"
           className="flex w-full flex-col pr-0 sm:max-w-lg"

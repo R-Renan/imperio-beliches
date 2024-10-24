@@ -1,5 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "../ui/button";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 interface PaginationProps {
   currentPage: number;
@@ -12,11 +14,16 @@ const Pagination: React.FC<PaginationProps> = ({
   setCurrentPage,
   totalPages,
 }) => {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [location, currentPage]);
+
   const renderPageNumbers = () => {
     const pages = [];
 
     if (totalPages <= 10) {
-      // Se o total de páginas for menor ou igual a 10, exibe todas
       for (let i = 1; i <= totalPages; i++) {
         pages.push(
           <Button
@@ -32,7 +39,6 @@ const Pagination: React.FC<PaginationProps> = ({
         );
       }
     } else {
-      // Se o total de páginas for maior que 10, exibe com elipses
       pages.push(
         <Button
           key={1}
@@ -115,6 +121,7 @@ const Pagination: React.FC<PaginationProps> = ({
               className={`flex text-black items-center px-4 py-2 rounded-md ${
                 currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
               }`}
+              title={currentPage === 1 ? "Você está na primeira página." : ""}
             >
               <ChevronLeft className="w-5 h-5" />
               <span className="ml-2">Anterior</span>
@@ -134,6 +141,9 @@ const Pagination: React.FC<PaginationProps> = ({
                   ? "opacity-50 cursor-not-allowed"
                   : ""
               }`}
+              title={
+                currentPage === totalPages ? "Você está na última página." : ""
+              }
             >
               <span className="mr-2">Próxima</span>
               <ChevronRight className="w-5 h-5" />
