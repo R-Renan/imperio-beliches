@@ -17,10 +17,11 @@ import {
 import { Separator } from "../ui/separator";
 import { formatPrice } from "../../lib/utils";
 import { buttonVariants } from "../ui/button";
-import { useCart } from "../../context/AddToCart"; // Zustand hook
+import { useCart } from "../../context/AddToCart";
 import { ScrollArea } from "../ui/scroll-area";
 import { Link } from "react-router-dom";
 import CartItem from "./CartItem";
+import CarrinhoVazio from "../../assets/carrinho-vazio.png";
 
 const Cart = () => {
   const { items, itemCount, cartTotal, isCartOpen, toggleCart } = useCart();
@@ -112,11 +113,7 @@ const Cart = () => {
             </>
           ) : (
             <div className="flex h-full flex-col items-center justify-center space-y-4">
-              <img
-                src="/hippo-empty-cart.png"
-                alt="Carrinho vazio"
-                className="w-40"
-              />
+              <img src={CarrinhoVazio} alt="CarrinhoVazio" className="w-50" />
               <p className="text-lg">Seu carrinho está vazio.</p>
             </div>
           )}

@@ -48,7 +48,7 @@ export const notifications = [
     pedido_id: 1234,
   },
   {
-    id: 6,
+    id: 7,
     description: "Novo comentário no produto",
     message: "Pedido #1234",
     imageUrl: "https://via.placeholder.com/150",
@@ -56,7 +56,7 @@ export const notifications = [
     pedido_id: 1234,
   },
   {
-    id: 6,
+    id: 8,
     description: "Novo comentário no produto",
     message: "Pedido #1234",
     imageUrl: "https://via.placeholder.com/150",
@@ -64,7 +64,7 @@ export const notifications = [
     pedido_id: 1234,
   },
   {
-    id: 6,
+    id: 9,
     description: "Novo comentário no produto",
     message: "Pedido #1234",
     imageUrl: "https://via.placeholder.com/150",
@@ -72,7 +72,7 @@ export const notifications = [
     pedido_id: 1234,
   },
   {
-    id: 6,
+    id: 10,
     description: "Novo comentário no produto",
     message: "Pedido #1234",
     imageUrl: "https://via.placeholder.com/150",
@@ -80,7 +80,7 @@ export const notifications = [
     pedido_id: 1234,
   },
   {
-    id: 6,
+    id: 11,
     description: "Novo comentário no produto",
     message: "Pedido #1234",
     imageUrl: "https://via.placeholder.com/150",
@@ -88,7 +88,7 @@ export const notifications = [
     pedido_id: 1234,
   },
   {
-    id: 6,
+    id: 12,
     description: "Novo comentário no produto",
     message: "Pedido #1234",
     imageUrl: "https://via.placeholder.com/150",
