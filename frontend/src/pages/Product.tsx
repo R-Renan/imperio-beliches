@@ -5,7 +5,7 @@ import PRODUCTS from "../assets/all_products";
 import NotFound from "../components/NotFound";
 import ProductDisplay from "../components/products/ProductDisplay";
 import ProductDescription from "../components/products/ProductDescription";
-import PopularProducts from "../components/products/PopularProducts";
+import RelevantProducts from "../components/products/RelevantProducts"; // Importe o novo componente
 
 const Product = () => {
   const { productId } = useParams<{ productId: string }>();
@@ -25,7 +25,11 @@ const Product = () => {
         <ProductHd {...product} />
         <ProductDisplay {...product} />
         <ProductDescription />
-        <PopularProducts />
+        {/* Adicione o componente de Produtos Relevantes */}
+        <RelevantProducts
+          currentProductId={product.id}
+          category={String(product.category)}
+        />
       </div>
     </section>
   );

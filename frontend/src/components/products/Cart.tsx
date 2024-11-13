@@ -22,6 +22,7 @@ import { ScrollArea } from "../ui/scroll-area";
 import { Link } from "react-router-dom";
 import CartItem from "./CartItem";
 import CarrinhoVazio from "../../assets/carrinho-vazio.png";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 const Cart = () => {
   const { items, itemCount, cartTotal, isCartOpen, toggleCart } = useCart();
@@ -63,11 +64,13 @@ const Cart = () => {
       <Sheet open={isCartOpen} onOpenChange={toggleCart}>
         <SheetContent
           aria-labelledby="cart-title"
-          className="flex w-full flex-col pr-0 sm:max-w-lg"
+          className="flex w-full flex-col pr-0 sm:max-w-lg bg-white"
         >
           <SheetHeader>
             <SheetTitle>Carrinho ({itemCount})</SheetTitle>
-            <SheetDescription>Seus itens selecionados.</SheetDescription>
+            <VisuallyHidden>
+              <SheetDescription>Seus produtos:</SheetDescription>
+            </VisuallyHidden>
           </SheetHeader>
 
           {itemCount > 0 ? (
@@ -113,7 +116,12 @@ const Cart = () => {
             </>
           ) : (
             <div className="flex h-full flex-col items-center justify-center space-y-4">
-              <img src={CarrinhoVazio} alt="CarrinhoVazio" className="w-50" />
+              <img
+                src={CarrinhoVazio}
+                alt="CarrinhoVazio"
+                width={164}
+                height={164}
+              />
               <p className="text-lg">Seu carrinho está vazio.</p>
             </div>
           )}
